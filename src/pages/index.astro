@@ -1,0 +1,75 @@
+---
+import EmailForm from '../components/EmailForm.astro'
+import Base from '../layouts/Base.astro'
+---
+
+<Base
+  title="ductual - Proximamente"
+  description="Gestiona tu consulta de psicologia sin complicaciones. Agenda, fichas clinicas y facturacion en una sola herramienta para psicologos en Espana."
+>
+  <main>
+    <div class="container">
+      <span class="badge">Proximamente</span>
+      <h1>ductual</h1>
+      <p class="tagline">Gestiona tu consulta de psicologia sin complicaciones.</p>
+      <p class="description">
+        Agenda, fichas clinicas y facturacion en una sola herramienta. Disenada
+        para psicologos en Espana.
+      </p>
+      <EmailForm />
+    </div>
+  </main>
+</Base>
+
+<style>
+  main {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.25rem 0.8rem;
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: clamp(3.5rem, 12vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    margin: 0 0 1.25rem;
+    line-height: 1;
+  }
+
+  .tagline {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text);
+    margin: 0 0 0.75rem;
+    line-height: 1.5;
+  }
+
+  .description {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin: 0 0 2.5rem;
+    line-height: 1.65;
+  }
+</style>

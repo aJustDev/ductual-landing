@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro'
+---
+
+<Base title="Politica de privacidad - ductual" description="Politica de privacidad de ductual.">
+  <main>
+    <article>
+      <a href="/" class="back">← Volver</a>
+      <h1>Politica de privacidad</h1>
+
+      <div class="notice">
+        Borrador pendiente de revision por asesor legal (ADR-024 de ductual-docs).
+        No sustituye a asesoramiento juridico profesional.
+      </div>
+
+      <h2>Responsable del tratamiento</h2>
+      <p>
+        Alejandro Justino (en proceso de alta como autonomo).<br />
+        Correo de contacto: <a href="mailto:privacidad@ductual.es">privacidad@ductual.es</a>
+      </p>
+
+      <h2>Datos que recogemos</h2>
+      <p>
+        Unicamente tu direccion de correo electronico, facilitada de forma voluntaria
+        a traves del formulario de esta pagina.
+      </p>
+
+      <h2>Finalidad y base de licitud</h2>
+      <p>
+        Tu email se guarda para comunicarte el lanzamiento de ductual y novedades
+        relevantes del servicio. La base de licitud es tu consentimiento expreso
+        (art. 6.1.a del Reglamento General de Proteccion de Datos).
+      </p>
+
+      <h2>Conservacion de los datos</h2>
+      <p>
+        Conservamos tu email hasta que solicites la baja o hasta que el servicio
+        sea lanzado y hayas tenido la oportunidad de registrarte o no en la
+        plataforma.
+      </p>
+
+      <h2>Destinatarios</h2>
+      <p>
+        Tus datos se almacenan en Resend (resend.com), proveedor de email
+        transaccional con DPA firmado y sede en la Union Europea. No cedemos tus
+        datos a terceros con fines comerciales.
+      </p>
+
+      <h2>Tus derechos</h2>
+      <p>
+        Puedes ejercer tus derechos de acceso, rectificacion, supresion,
+        portabilidad y oposicion enviando un correo a
+        <a href="mailto:privacidad@ductual.es">privacidad@ductual.es</a>. Tambien
+        puedes reclamar ante la Agencia Espanola de Proteccion de Datos
+        (aepd.es).
+      </p>
+    </article>
+  </main>
+</Base>
+
+<style>
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .back:hover {
+    color: var(--text);
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .notice {
+    padding: 0.875rem 1rem;
+    background: #78350f22;
+    border: 1px solid #d9770644;
+    border-radius: 8px;
+    color: #fcd34d;
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+    color: var(--text);
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+</style>

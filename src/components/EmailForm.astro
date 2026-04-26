@@ -1,0 +1,207 @@
+---
+---
+
+<form id="subscribe-form" novalidate>
+  <div class="field">
+    <input
+      type="email"
+      id="email"
+      name="email"
+      placeholder="tu@email.com"
+      required
+      autocomplete="email"
+    />
+    <span class="field-error" id="email-error"></span>
+  </div>
+
+  <div class="consent">
+    <label>
+      <input type="checkbox" id="consent" name="consent" required />
+      <span
+        >He leido y acepto la <a href="/privacidad">politica de privacidad</a></span
+      >
+    </label>
+    <span class="field-error" id="consent-error"></span>
+  </div>
+
+  <button type="submit" id="submit-btn">
+    <span id="btn-text">Apuntarme a la lista de espera</span>
+  </button>
+
+  <p class="microcopy">Sin spam. Te avisaremos cuando lancemos.</p>
+
+  <div id="form-success" class="hidden success-msg">
+    <p>Apuntado. Te avisamos cuando lancemos.</p>
+  </div>
+
+  <div id="form-error" class="hidden error-banner">
+    <p id="error-text">Algo salio mal. Intentalo de nuevo.</p>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById('subscribe-form') as HTMLFormElement
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement
+  const btnText = document.getElementById('btn-text') as HTMLSpanElement
+  const formSuccess = document.getElementById('form-success') as HTMLDivElement
+  const formError = document.getElementById('form-error') as HTMLDivElement
+  const errorText = document.getElementById('error-text') as HTMLParagraphElement
+  const emailInput = document.getElementById('email') as HTMLInputElement
+  const emailError = document.getElementById('email-error') as HTMLSpanElement
+  const consentInput = document.getElementById('consent') as HTMLInputElement
+  const consentError = document.getElementById('consent-error') as HTMLSpanElement
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    emailError.textContent = ''
+    consentError.textContent = ''
+    formError.classList.add('hidden')
+
+    const email = emailInput.value.trim()
+    const consent = consentInput.checked
+
+    if (!EMAIL_RE.test(email)) {
+      emailError.textContent = 'Introduce un email valido.'
+      return
+    }
+    if (!consent) {
+      consentError.textContent = 'Debes aceptar la politica de privacidad.'
+      return
+    }
+
+    submitBtn.disabled = true
+    btnText.textContent = 'Enviando...'
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, consent: true }),
+      })
+
+      if (res.ok) {
+        form.classList.add('hidden')
+        formSuccess.classList.remove('hidden')
+      } else {
+        const data = await res.json().catch(() => ({}))
+        errorText.textContent = (data as { error?: string }).error ?? 'Algo salio mal. Intentalo de nuevo.'
+        formError.classList.remove('hidden')
+        submitBtn.disabled = false
+        btnText.textContent = 'Apuntarme a la lista de espera'
+      }
+    } catch {
+      errorText.textContent = 'Error de conexion. Intentalo de nuevo.'
+      formError.classList.remove('hidden')
+      submitBtn.disabled = false
+      btnText.textContent = 'Apuntarme a la lista de espera'
+    }
+  })
+</script>
+
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  input[type='email'] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input[type='email']:focus {
+    border-color: var(--accent);
+  }
+  input[type='email']::placeholder {
+    color: var(--text-muted);
+  }
+
+  .consent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .consent label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .consent input[type='checkbox'] {
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+    accent-color: var(--accent);
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .field-error {
+    font-size: 0.8rem;
+    color: var(--error);
+    min-height: 1rem;
+  }
+
+  button[type='submit'] {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  button[type='submit']:hover:not(:disabled) {
+    background: var(--accent-hover);
+  }
+  button[type='submit']:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .microcopy {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .success-msg {
+    padding: 0.875rem 1rem;
+    background: #14532d33;
+    border: 1px solid #16a34a55;
+    border-radius: 8px;
+    color: #86efac;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .error-banner {
+    padding: 0.875rem 1rem;
+    background: #7f1d1d33;
+    border: 1px solid #dc262655;
+    border-radius: 8px;
+    color: #fca5a5;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+</style>
