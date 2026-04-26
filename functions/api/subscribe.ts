@@ -1,10 +1,17 @@
-import type { APIRoute } from "astro";
-
-export const prerender = false;
-
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export const POST: APIRoute = async ({ request }) => {
+interface Env {
+  RESEND_API_KEY: string;
+  RESEND_AUDIENCE_ID: string;
+}
+
+export const onRequestPost = async ({
+  request,
+  env,
+}: {
+  request: Request;
+  env: Env;
+}) => {
   let body: { email?: string; consent?: boolean };
   try {
     body = await request.json();
@@ -21,9 +28,7 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ error: "Consentimiento requerido" }, 422);
   }
 
-  const apiKey = import.meta.env.RESEND_API_KEY;
-  const audienceId = import.meta.env.RESEND_AUDIENCE_ID;
-
+  const { RESEND_API_KEY: apiKey, RESEND_AUDIENCE_ID: audienceId } = env;
   if (!apiKey || !audienceId) {
     return json({ error: "Servicio no configurado" }, 503);
   }
