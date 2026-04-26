@@ -16,13 +16,13 @@ export const onRequestPost = async ({
   try {
     body = await request.json();
   } catch {
-    return json({ error: "Cuerpo invalido" }, 400);
+    return json({ error: "Cuerpo inválido" }, 400);
   }
 
   const { email, consent } = body;
 
   if (!email || !EMAIL_RE.test(email)) {
-    return json({ error: "Email no valido" }, 422);
+    return json({ error: "Email no válido" }, 422);
   }
   if (!consent) {
     return json({ error: "Consentimiento requerido" }, 422);
@@ -30,28 +30,53 @@ export const onRequestPost = async ({
 
   const { RESEND_API_KEY: apiKey, RESEND_AUDIENCE_ID: audienceId } = env;
   if (!apiKey || !audienceId) {
+    console.error("subscribe: missing env vars", {
+      hasKey: Boolean(apiKey),
+      hasAudience: Boolean(audienceId),
+    });
     return json({ error: "Servicio no configurado" }, 503);
   }
 
-  const res = await fetch(
-    `https://api.resend.com/audiences/${audienceId}/contacts`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
+  let res: Response;
+  try {
+    res = await fetch(
+      `https://api.resend.com/audiences/${audienceId}/contacts`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, unsubscribed: false }),
       },
-      body: JSON.stringify({ email, unsubscribed: false }),
-    },
-  );
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    const msg = (err as { message?: string }).message ?? "Error al registrar";
-    return json({ error: msg }, res.status);
+    );
+  } catch (err) {
+    console.error("subscribe: fetch failed", err);
+    return json({ error: "Error de conexión con el servicio" }, 502);
   }
 
-  return json({ ok: true }, 200);
+  if (res.ok) {
+    return json({ ok: true }, 200);
+  }
+
+  const errData = (await res.json().catch(() => ({}))) as {
+    name?: string;
+    message?: string;
+  };
+  console.error("subscribe: resend error", {
+    status: res.status,
+    name: errData.name,
+    message: errData.message,
+  });
+
+  const alreadyExists =
+    res.status === 409 ||
+    /already exists|ya existe|exists/i.test(errData.message ?? "");
+  if (alreadyExists) {
+    return json({ ok: true }, 200);
+  }
+
+  return json({ error: errData.message ?? "Error al registrar" }, res.status);
 };
 
 function json(data: unknown, status: number) {

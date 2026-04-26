@@ -3,9 +3,11 @@
 
 <section id="waitlist" class="waitlist" aria-labelledby="waitlist-title">
   <div class="container card">
-    <h2 id="waitlist-title" class="title">Apuntate a la lista de espera</h2>
+    <h2 id="waitlist-title" class="title">Apúntate a la lista de espera</h2>
     <p class="lede">
-      Te avisamos por email cuando este disponible. Sin spam, solo lo importante.
+      Te avisamos por email cuando esté disponible. Recibirás un informe
+      periódico del desarrollo y, de vez en cuando, una encuesta breve para
+      darnos feedback.
     </p>
 
     <form id="subscribe-form" novalidate>
@@ -27,7 +29,7 @@
         <label class="consent-label">
           <input type="checkbox" id="consent" name="consent" required />
           <span>
-            He leido y acepto la <a href="/privacidad">politica de privacidad</a>.
+            He leído y acepto la <a href="/privacidad">política de privacidad</a>.
           </span>
         </label>
         <span class="field-error" id="consent-error" aria-live="polite"></span>
@@ -37,7 +39,10 @@
         <span id="btn-text">Apuntarme</span>
       </button>
 
-      <p class="microcopy">Sin spam. Te avisaremos cuando lancemos.</p>
+      <p class="microcopy">
+        Solo lo importante: avances del desarrollo y encuestas puntuales. Te
+        puedes dar de baja en cualquier momento.
+      </p>
 
       <div
         id="form-success"
@@ -45,7 +50,7 @@
         role="status"
         aria-live="polite"
       >
-        <p>Apuntado. Te avisamos cuando lancemos.</p>
+        <p>¡Listo! Te escribiremos pronto con el primer informe.</p>
       </div>
 
       <div
@@ -54,7 +59,7 @@
         role="alert"
         aria-live="polite"
       >
-        <p id="error-text">Algo salio mal. Intentalo de nuevo.</p>
+        <p id="error-text">Algo salió mal. Inténtalo de nuevo.</p>
       </div>
     </form>
   </div>
@@ -84,12 +89,12 @@
     const consent = consentInput.checked
 
     if (!EMAIL_RE.test(email)) {
-      emailError.textContent = 'Introduce un email valido.'
+      emailError.textContent = 'Introduce un email válido.'
       emailInput.focus()
       return
     }
     if (!consent) {
-      consentError.textContent = 'Debes aceptar la politica de privacidad.'
+      consentError.textContent = 'Debes aceptar la política de privacidad.'
       consentInput.focus()
       return
     }
@@ -110,13 +115,13 @@
       } else {
         const data = await res.json().catch(() => ({}))
         errorText.textContent =
-          (data as { error?: string }).error ?? 'Algo salio mal. Intentalo de nuevo.'
+          (data as { error?: string }).error ?? 'Algo salió mal. Inténtalo de nuevo.'
         formError.classList.remove('hidden')
         submitBtn.disabled = false
         btnText.textContent = 'Apuntarme'
       }
     } catch {
-      errorText.textContent = 'Error de conexion. Intentalo de nuevo.'
+      errorText.textContent = 'Error de conexión. Inténtalo de nuevo.'
       formError.classList.remove('hidden')
       submitBtn.disabled = false
       btnText.textContent = 'Apuntarme'
