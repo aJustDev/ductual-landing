@@ -6,5 +6,6 @@ npm-debug.log*
 .env
 .env.local
 .env.*.local
+.dev.vars
 .DS_Store
 Thumbs.db
