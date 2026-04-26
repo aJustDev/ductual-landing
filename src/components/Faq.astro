@@ -1,0 +1,123 @@
+---
+const items = [
+  {
+    q: 'Cuando lanzais?',
+    a: 'Estamos en desarrollo activo. Te avisaremos por email en cuanto este disponible.',
+  },
+  {
+    q: 'Es para Espana?',
+    a: 'Si. Diseno enfocado en RGPD, factura electronica AEAT (Verifactu) y soporte en castellano.',
+  },
+  {
+    q: 'Mis datos estan seguros?',
+    a: 'Cifrado en reposo, copias diarias y DPA firmable. Cumplimos RGPD por diseno.',
+  },
+  {
+    q: 'Puedo exportar mis datos?',
+    a: 'Si. Export completo en formato abierto, en cualquier momento, sin lock-in.',
+  },
+] as const
+---
+
+<section class="faq container" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="section-title">Preguntas frecuentes</h2>
+  <div class="list">
+    {
+      items.map((it) => (
+        <details class="item">
+          <summary class="q">
+            <span>{it.q}</span>
+            <svg
+              class="chev"
+              viewBox="0 0 16 16"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                d="M4 6 L8 10 L12 6"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </summary>
+          <p class="a">{it.a}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .faq {
+    padding-block: var(--section-py);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    color: var(--text);
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: -0.005em;
+  }
+
+  .list {
+    max-width: 720px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0 1.25rem;
+    transition:
+      border-color 220ms ease,
+      background 220ms ease;
+  }
+  .item[open] {
+    border-color: var(--border-strong);
+  }
+
+  .q {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.1rem 0;
+    font-weight: 500;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .q::-webkit-details-marker {
+    display: none;
+  }
+
+  .chev {
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+    transition: transform 220ms ease;
+    flex-shrink: 0;
+  }
+  .item[open] .chev {
+    transform: rotate(180deg);
+  }
+
+  .a {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    padding: 0 0 1.1rem;
+    margin: 0;
+    max-width: 60ch;
+  }
+</style>

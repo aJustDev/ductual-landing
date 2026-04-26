@@ -1,0 +1,170 @@
+---
+import Decor from './Decor.astro'
+---
+
+<header class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        Proximamente
+      </span>
+      <!-- copy provisional, brand guidelines en M7 -->
+      <h1 class="headline">
+        Tu consulta de psicologia, <em>con calma</em>.
+      </h1>
+      <p class="sub">
+        Agenda, fichas clinicas con RGPD y facturacion en una sola
+        herramienta. Pensada para psicologos en Espana.
+      </p>
+      <div class="cta-row">
+        <a href="#waitlist" class="cta">Apuntarme a la lista de espera</a>
+        <span class="cta-microcopy">Sin spam. Te avisaremos cuando lancemos.</span>
+      </div>
+    </div>
+    <div class="hero-decor" aria-hidden="true">
+      <Decor variant="leaf" />
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(3rem, 8vw, 5rem);
+    padding-bottom: var(--section-py);
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (min-width: 880px) {
+    .hero-grid {
+      grid-template-columns: 1.4fr 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .hero-copy {
+    animation: fade-up 600ms ease-out both;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: 1.75rem;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(91, 122, 90, 0.45);
+    animation: pulse 2.4s ease-out infinite;
+  }
+
+  .headline {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.6rem, 6.5vw, 4.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin: 0 0 1.5rem;
+    max-width: 18ch;
+  }
+  .headline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .sub {
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    color: var(--text-muted);
+    max-width: 52ch;
+    margin: 0 0 2rem;
+  }
+
+  .cta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    align-items: flex-start;
+  }
+
+  .cta {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.85rem 1.4rem;
+    border-radius: var(--radius-lg);
+    font-weight: 500;
+    font-size: 0.98rem;
+    text-decoration: none;
+    transition:
+      background 200ms ease,
+      transform 200ms ease;
+  }
+  .cta:hover {
+    background: var(--accent-hover);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  .cta-microcopy {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .hero-decor {
+    width: clamp(180px, 30vw, 320px);
+    aspect-ratio: 1;
+    justify-self: center;
+    color: var(--accent-2);
+    opacity: 0.55;
+  }
+
+  @media (max-width: 879px) {
+    .hero-decor {
+      display: none;
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(91, 122, 90, 0.45);
+    }
+    70% {
+      box-shadow: 0 0 0 8px rgba(91, 122, 90, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(91, 122, 90, 0);
+    }
+  }
+</style>

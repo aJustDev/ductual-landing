@@ -2,57 +2,64 @@
 import Base from '../layouts/Base.astro'
 ---
 
-<Base title="Politica de privacidad - ductual" description="Politica de privacidad de ductual.">
-  <main>
+<Base
+  title="Politica de privacidad - ductual"
+  description="Politica de privacidad de ductual."
+  path="/privacidad"
+>
+  <main class="container">
     <article>
-      <a href="/" class="back">← Volver</a>
+      <a href="/" class="back">&larr; Volver</a>
       <h1>Politica de privacidad</h1>
 
       <div class="notice">
-        Borrador pendiente de revision por asesor legal (ADR-024 de ductual-docs).
-        No sustituye a asesoramiento juridico profesional.
+        Borrador pendiente de revision por asesor legal (ADR-024 de
+        ductual-docs). No sustituye a asesoramiento juridico profesional.
       </div>
 
       <h2>Responsable del tratamiento</h2>
       <p>
         Alejandro Justino (en proceso de alta como autonomo).<br />
-        Correo de contacto: <a href="mailto:privacidad@ductual.es">privacidad@ductual.es</a>
+        Correo de contacto: <a href="mailto:privacidad@ductual.es"
+          >privacidad@ductual.es</a
+        >
       </p>
 
       <h2>Datos que recogemos</h2>
       <p>
-        Unicamente tu direccion de correo electronico, facilitada de forma voluntaria
-        a traves del formulario de esta pagina.
+        Unicamente tu direccion de correo electronico, facilitada de forma
+        voluntaria a traves del formulario de esta pagina.
       </p>
 
       <h2>Finalidad y base de licitud</h2>
       <p>
-        Tu email se guarda para comunicarte el lanzamiento de ductual y novedades
-        relevantes del servicio. La base de licitud es tu consentimiento expreso
-        (art. 6.1.a del Reglamento General de Proteccion de Datos).
+        Tu email se guarda para comunicarte el lanzamiento de ductual y
+        novedades relevantes del servicio. La base de licitud es tu
+        consentimiento expreso (art. 6.1.a del Reglamento General de
+        Proteccion de Datos).
       </p>
 
       <h2>Conservacion de los datos</h2>
       <p>
-        Conservamos tu email hasta que solicites la baja o hasta que el servicio
-        sea lanzado y hayas tenido la oportunidad de registrarte o no en la
-        plataforma.
+        Conservamos tu email hasta que solicites la baja o hasta que el
+        servicio sea lanzado y hayas tenido la oportunidad de registrarte o
+        no en la plataforma.
       </p>
 
       <h2>Destinatarios</h2>
       <p>
         Tus datos se almacenan en Resend (resend.com), proveedor de email
-        transaccional con DPA firmado y sede en la Union Europea. No cedemos tus
-        datos a terceros con fines comerciales.
+        transaccional con DPA firmado y sede en la Union Europea. No cedemos
+        tus datos a terceros con fines comerciales.
       </p>
 
       <h2>Tus derechos</h2>
       <p>
         Puedes ejercer tus derechos de acceso, rectificacion, supresion,
-        portabilidad y oposicion enviando un correo a
-        <a href="mailto:privacidad@ductual.es">privacidad@ductual.es</a>. Tambien
-        puedes reclamar ante la Agencia Espanola de Proteccion de Datos
-        (aepd.es).
+        portabilidad y oposicion enviando un correo a <a
+          href="mailto:privacidad@ductual.es">privacidad@ductual.es</a
+        >. Tambien puedes reclamar ante la Agencia Espanola de Proteccion de
+        Datos (aepd.es).
       </p>
     </article>
   </main>
@@ -60,9 +67,17 @@ import Base from '../layouts/Base.astro'
 
 <style>
   main {
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  article {
     max-width: 640px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem;
+    margin-inline: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    box-shadow: var(--shadow-sm);
   }
 
   .back {
@@ -73,37 +88,45 @@ import Base from '../layouts/Base.astro'
     text-decoration: none;
   }
   .back:hover {
-    color: var(--text);
+    color: var(--accent);
   }
 
   h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 4vw, 2.4rem);
     margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
+    color: var(--text);
+    letter-spacing: -0.005em;
   }
 
   .notice {
-    padding: 0.875rem 1rem;
-    background: #78350f22;
-    border: 1px solid #d9770644;
-    border-radius: 8px;
-    color: #fcd34d;
-    font-size: 0.85rem;
+    padding: 1rem 1.1rem;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-2);
+    border-radius: var(--radius);
+    color: var(--accent-hover);
+    font-size: 0.88rem;
     margin-bottom: 2rem;
-    line-height: 1.5;
+    line-height: 1.55;
   }
 
   h2 {
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: 1.75rem 0 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.3rem;
+    margin: 2rem 0 0.5rem;
     color: var(--text);
+    letter-spacing: -0.005em;
   }
 
   p {
     font-size: 0.95rem;
     color: var(--text-muted);
     line-height: 1.7;
+  }
+
+  p + p {
+    margin-top: 0.75rem;
   }
 </style>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f9f6f0"/>
+      <stop offset="100%" stop-color="#efe9d9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g stroke="#5b7a5a" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.55">
+    <path d="M860 480 C 920 420, 980 320, 1010 220"/>
+    <path d="M880 470 Q 920 440, 940 400"/>
+    <path d="M905 455 Q 935 420, 950 385"/>
+    <path d="M925 435 Q 950 405, 962 370"/>
+    <path d="M945 410 Q 965 385, 974 355"/>
+  </g>
+  <g fill="#5b7a5a" opacity="0.5">
+    <circle cx="1015" cy="210" r="6"/>
+    <circle cx="1040" cy="180" r="4"/>
+    <circle cx="1055" cy="200" r="5"/>
+  </g>
+  <g transform="translate(80,260)">
+    <text x="0" y="0" font-family="Georgia, 'Times New Roman', serif" font-size="44" fill="#5b7a5a" font-weight="400">
+      <tspan dx="0">— ductual</tspan>
+    </text>
+    <text x="0" y="120" font-family="Georgia, 'Times New Roman', serif" font-size="120" fill="#1f2620" font-weight="400" letter-spacing="-2">
+      Tu consulta de psicologia,
+    </text>
+    <text x="0" y="240" font-family="Georgia, 'Times New Roman', serif" font-size="120" fill="#5b7a5a" font-style="italic" font-weight="400" letter-spacing="-2">
+      con calma.
+    </text>
+    <text x="0" y="320" font-family="-apple-system, system-ui, sans-serif" font-size="30" fill="#6b7268" font-weight="400">
+      Agenda, fichas clinicas con RGPD y facturacion. Para psicologos en Espana.
+    </text>
+  </g>
+</svg>

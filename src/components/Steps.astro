@@ -1,0 +1,105 @@
+---
+const steps = [
+  {
+    n: '01',
+    title: 'Crear tu espacio',
+    desc: 'En minutos, sin instalar nada. Acceso desde cualquier navegador.',
+  },
+  {
+    n: '02',
+    title: 'Configurar agenda y plantillas',
+    desc: 'Tus horarios, tipos de sesion, plantillas de notas y datos fiscales.',
+  },
+  {
+    n: '03',
+    title: 'Recibir pacientes',
+    desc: 'Gestionar sesiones, notas clinicas y emitir facturas sin distracciones.',
+  },
+] as const
+---
+
+<section class="steps" aria-labelledby="steps-title">
+  <div class="container">
+    <h2 id="steps-title" class="section-title">Como sera tu primera semana</h2>
+    <ol class="list">
+      {
+        steps.map((s) => (
+          <li class="step">
+            <span class="num">{s.n}</span>
+            <div class="copy">
+              <h3 class="step-title">{s.title}</h3>
+              <p class="step-desc">{s.desc}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps {
+    padding-block: var(--section-py);
+    background:
+      linear-gradient(180deg, transparent 0, rgba(91, 122, 90, 0.04) 100%);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    color: var(--text);
+    margin-bottom: 2.5rem;
+    text-align: center;
+    letter-spacing: -0.005em;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    counter-reset: steps;
+  }
+
+  @media (min-width: 720px) {
+    .list {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 2.2rem;
+    color: var(--accent);
+    line-height: 1;
+    opacity: 0.9;
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.35rem;
+    color: var(--text);
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+
+  .step-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 38ch;
+  }
+</style>
