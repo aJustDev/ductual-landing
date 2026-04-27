@@ -35,7 +35,8 @@ export const onRequest = async ({ request, env, next }: Ctx) => {
 
     const hasExtension = /\.[a-z0-9]+$/i.test(path);
     if (!hasExtension) {
-      const newPath = path === "/" ? "/ca/" : `/ca${path}`;
+      const withSlash = path.endsWith("/") ? path : `${path}/`;
+      const newPath = withSlash === "/" ? "/ca/" : `/ca${withSlash}`;
       const rewritten = new URL(url.toString());
       rewritten.pathname = newPath;
       return env.ASSETS.fetch(new Request(rewritten.toString(), request));
