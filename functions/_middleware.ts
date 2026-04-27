@@ -18,6 +18,7 @@ export const onRequest = async ({ request, env, next }: Ctx) => {
   }
 
   const isCAT = hostname === "ductual.cat" || hostname.endsWith(".ductual.cat");
+  const isES = hostname === "ductual.es" || hostname.endsWith(".ductual.es");
 
   if (isCAT) {
     if (path === "/privacidad" || path.startsWith("/privacidad/")) {
@@ -31,23 +32,21 @@ export const onRequest = async ({ request, env, next }: Ctx) => {
       const rest = path.slice(3) || "/";
       return Response.redirect(`https://ductual.cat${rest}${url.search}`, 301);
     }
-  } else {
-    if (path === "/privacitat" || path.startsWith("/privacitat/")) {
-      return Response.redirect(`https://ductual.cat${path}${url.search}`, 301);
-    }
-    if (path.startsWith("/ca/")) {
-      const rest = path.slice(3) || "/";
-      return Response.redirect(`https://ductual.cat${rest}${url.search}`, 301);
-    }
-  }
 
-  if (isCAT) {
     const hasExtension = /\.[a-z0-9]+$/i.test(path);
     if (!hasExtension) {
       const newPath = path === "/" ? "/ca/" : `/ca${path}`;
       const rewritten = new URL(url.toString());
       rewritten.pathname = newPath;
       return env.ASSETS.fetch(new Request(rewritten.toString(), request));
+    }
+  } else if (isES) {
+    if (path === "/privacitat" || path.startsWith("/privacitat/")) {
+      return Response.redirect(`https://ductual.cat${path}${url.search}`, 301);
+    }
+    if (path.startsWith("/ca/")) {
+      const rest = path.slice(3) || "/";
+      return Response.redirect(`https://ductual.cat${rest}${url.search}`, 301);
     }
   }
 
