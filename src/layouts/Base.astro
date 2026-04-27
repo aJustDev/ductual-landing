@@ -1,18 +1,33 @@
 ---
+import type { Locale } from '../i18n/types'
+
 interface Props {
   title: string
   description: string
-  path?: string
+  locale: Locale
+  pathEs?: string
+  pathCa?: string
 }
 
-const { title, description, path = '/' } = Astro.props
-const siteUrl = 'https://ductual-landing.pages.dev'
+const { title, description, locale, pathEs = '/', pathCa = '/' } = Astro.props
+
+const SITE_ES = 'https://ductual-landing.pages.dev'
+const SITE_CA = 'https://ductual.cat'
+const PAGES_FALLBACK = 'https://ductual-landing.pages.dev'
+
+const siteUrl = locale === 'ca' ? SITE_CA : SITE_ES
+const path = locale === 'ca' ? pathCa : pathEs
 const canonical = `${siteUrl}${path}`
-const ogImage = `${siteUrl}/og-image.png`
+const ogImage = `${PAGES_FALLBACK}/og-image.png`
+const ogLocale = locale === 'ca' ? 'ca_ES' : 'es_ES'
+const ogLocaleAlt = locale === 'ca' ? 'es_ES' : 'ca_ES'
+
+const hrefEs = `${SITE_ES}${pathEs}`
+const hrefCa = `${SITE_CA}${pathCa}`
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,6 +35,9 @@ const ogImage = `${siteUrl}/og-image.png`
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f7f4ee" />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={hrefEs} />
+    <link rel="alternate" hreflang="ca" href={hrefCa} />
+    <link rel="alternate" hreflang="x-default" href={hrefEs} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="robots" content="noindex" />
 
@@ -28,7 +46,8 @@ const ogImage = `${siteUrl}/og-image.png`
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

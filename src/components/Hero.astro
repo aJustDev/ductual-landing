@@ -1,5 +1,12 @@
 ---
 import Decor from './Decor.astro'
+import type { Dict } from '../i18n/types'
+
+interface Props {
+  t: Dict
+}
+
+const { t } = Astro.props
 ---
 
 <header class="hero">
@@ -7,22 +14,16 @@ import Decor from './Decor.astro'
     <div class="hero-copy">
       <span class="badge">
         <span class="badge-dot" aria-hidden="true"></span>
-        Próximamente
+        {t.hero.badge}
       </span>
-      <!-- copy provisional, brand guidelines en M7 -->
+      {/* copy provisional, brand guidelines en M7 */}
       <h1 class="headline">
-        Tu consulta de psicología, <em>con calma</em>.
+        {t.hero.headlinePre}<em>{t.hero.headlineEm}</em>{t.hero.headlinePost}
       </h1>
-      <p class="sub">
-        Agenda, fichas clínicas con RGPD y facturación en una sola
-        herramienta. Pensada para psicólogos en España.
-      </p>
+      <p class="sub">{t.hero.sub}</p>
       <div class="cta-row">
-        <a href="#waitlist" class="cta">Apuntarme a la lista de espera</a>
-        <span class="cta-microcopy"
-          >Informe ocasional del desarrollo y alguna encuesta breve para
-          escucharte.</span
-        >
+        <a href="#waitlist" class="cta">{t.hero.cta}</a>
+        <span class="cta-microcopy">{t.hero.microcopy}</span>
       </div>
     </div>
     <div class="hero-decor" aria-hidden="true">

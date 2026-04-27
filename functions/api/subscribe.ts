@@ -3,7 +3,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 interface Env {
   RESEND_API_KEY: string;
   RESEND_AUDIENCE_ID: string;
+  RESEND_AUDIENCE_ID_CA?: string;
 }
+
+type Locale = "es" | "ca";
 
 export const onRequestPost = async ({
   request,
@@ -12,29 +15,34 @@ export const onRequestPost = async ({
   request: Request;
   env: Env;
 }) => {
-  let body: { email?: string; consent?: boolean };
+  let body: { email?: string; consent?: boolean; locale?: string };
   try {
     body = await request.json();
   } catch {
-    return json({ error: "Cuerpo inválido" }, 400);
+    return json({ error: "invalid_body" }, 400);
   }
 
   const { email, consent } = body;
+  const locale: Locale = body.locale === "ca" ? "ca" : "es";
 
   if (!email || !EMAIL_RE.test(email)) {
-    return json({ error: "Email no válido" }, 422);
+    return json({ error: "invalid_email" }, 422);
   }
   if (!consent) {
-    return json({ error: "Consentimiento requerido" }, 422);
+    return json({ error: "consent_required" }, 422);
   }
 
-  const { RESEND_API_KEY: apiKey, RESEND_AUDIENCE_ID: audienceId } = env;
+  const apiKey = env.RESEND_API_KEY;
+  const audienceId =
+    locale === "ca" ? env.RESEND_AUDIENCE_ID_CA : env.RESEND_AUDIENCE_ID;
+
   if (!apiKey || !audienceId) {
     console.error("subscribe: missing env vars", {
+      locale,
       hasKey: Boolean(apiKey),
       hasAudience: Boolean(audienceId),
     });
-    return json({ error: "Servicio no configurado" }, 503);
+    return json({ error: "service_unavailable" }, 503);
   }
 
   let res: Response;
@@ -52,7 +60,7 @@ export const onRequestPost = async ({
     );
   } catch (err) {
     console.error("subscribe: fetch failed", err);
-    return json({ error: "Error de conexión con el servicio" }, 502);
+    return json({ error: "network_error" }, 502);
   }
 
   if (res.ok) {
@@ -76,7 +84,7 @@ export const onRequestPost = async ({
     return json({ ok: true }, 200);
   }
 
-  return json({ error: errData.message ?? "Error al registrar" }, res.status);
+  return json({ error: "resend_error" }, res.status);
 };
 
 function json(data: unknown, status: number) {

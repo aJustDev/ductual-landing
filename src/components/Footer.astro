@@ -1,4 +1,11 @@
 ---
+import type { Dict } from '../i18n/types'
+
+interface Props {
+  t: Dict
+}
+
+const { t } = Astro.props
 const year = new Date().getFullYear()
 ---
 
@@ -22,16 +29,16 @@ const year = new Date().getFullYear()
         </svg>
       </span>
       <span class="name">Ductual</span>
-      <span class="tag">Gestión de consulta, con calma.</span>
+      <span class="tag">{t.footer.tag}</span>
     </div>
-    <!-- TODO: anadir hola@ductual.es cuando este Email Routing -->
-    <nav class="links" aria-label="Pie de página">
-      <a href="/privacidad">Política de privacidad</a>
+    {/* TODO: anadir hola@ductual.es cuando este Email Routing */}
+    <nav class="links" aria-label={t.footer.nav}>
+      <a href={t.routes.privacy}>{t.footer.privacyLink}</a>
     </nav>
   </div>
   <div class="container small">
     <span>&copy; {year} Ductual</span>
-    <span class="loc">Hecho en España</span>
+    <span class="loc">{t.footer.location}</span>
   </div>
 </footer>
 

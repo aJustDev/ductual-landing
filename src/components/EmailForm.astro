@@ -1,23 +1,37 @@
 ---
+import type { Dict, Locale } from '../i18n/types'
+
+interface Props {
+  t: Dict
+  locale: Locale
+}
+
+const { t, locale } = Astro.props
 ---
 
 <section id="waitlist" class="waitlist" aria-labelledby="waitlist-title">
   <div class="container card">
-    <h2 id="waitlist-title" class="title">Apúntate a la lista de espera</h2>
-    <p class="lede">
-      Te avisamos por email cuando esté disponible. Recibirás un informe
-      periódico del desarrollo y, de vez en cuando, una encuesta breve para
-      darnos feedback.
-    </p>
+    <h2 id="waitlist-title" class="title">{t.emailForm.title}</h2>
+    <p class="lede">{t.emailForm.lede}</p>
 
-    <form id="subscribe-form" novalidate>
+    <form
+      id="subscribe-form"
+      novalidate
+      data-locale={locale}
+      data-msg-loading={t.emailForm.submitLoading}
+      data-msg-submit={t.emailForm.submit}
+      data-msg-network={t.emailForm.errorNetwork}
+      data-msg-generic={t.emailForm.errorGeneric}
+      data-msg-invalid-email={t.emailForm.errorInvalidEmail}
+      data-msg-consent={t.emailForm.errorConsent}
+    >
       <div class="field">
-        <label for="email" class="label">Email</label>
+        <label for="email" class="label">{t.emailForm.label}</label>
         <input
           type="email"
           id="email"
           name="email"
-          placeholder="tu@email.com"
+          placeholder={t.emailForm.placeholder}
           required
           autocomplete="email"
           aria-describedby="email-error"
@@ -29,20 +43,19 @@
         <label class="consent-label">
           <input type="checkbox" id="consent" name="consent" required />
           <span>
-            He leído y acepto la <a href="/privacidad">política de privacidad</a>.
+            {t.emailForm.consentPre}<a href={t.routes.privacy}
+              >{t.emailForm.consentLink}</a
+            >{t.emailForm.consentPost}
           </span>
         </label>
         <span class="field-error" id="consent-error" aria-live="polite"></span>
       </div>
 
       <button type="submit" id="submit-btn">
-        <span id="btn-text">Apuntarme</span>
+        <span id="btn-text">{t.emailForm.submit}</span>
       </button>
 
-      <p class="microcopy">
-        Solo lo importante: avances del desarrollo y encuestas puntuales. Te
-        puedes dar de baja en cualquier momento.
-      </p>
+      <p class="microcopy">{t.emailForm.microcopy}</p>
 
       <div
         id="form-success"
@@ -50,7 +63,7 @@
         role="status"
         aria-live="polite"
       >
-        <p>¡Listo! Te escribiremos pronto con el primer informe.</p>
+        <p>{t.emailForm.success}</p>
       </div>
 
       <div
@@ -59,7 +72,7 @@
         role="alert"
         aria-live="polite"
       >
-        <p id="error-text">Algo salió mal. Inténtalo de nuevo.</p>
+        <p id="error-text">{t.emailForm.errorGeneric}</p>
       </div>
     </form>
   </div>
@@ -71,11 +84,26 @@
   const btnText = document.getElementById('btn-text') as HTMLSpanElement
   const formSuccess = document.getElementById('form-success') as HTMLDivElement
   const formError = document.getElementById('form-error') as HTMLDivElement
-  const errorText = document.getElementById('error-text') as HTMLParagraphElement
+  const errorText = document.getElementById(
+    'error-text',
+  ) as HTMLParagraphElement
   const emailInput = document.getElementById('email') as HTMLInputElement
   const emailError = document.getElementById('email-error') as HTMLSpanElement
   const consentInput = document.getElementById('consent') as HTMLInputElement
-  const consentError = document.getElementById('consent-error') as HTMLSpanElement
+  const consentError = document.getElementById(
+    'consent-error',
+  ) as HTMLSpanElement
+
+  const ds = form.dataset
+  const locale = ds.locale ?? 'es'
+  const MSG = {
+    loading: ds.msgLoading ?? '',
+    submit: ds.msgSubmit ?? '',
+    network: ds.msgNetwork ?? '',
+    generic: ds.msgGeneric ?? '',
+    invalidEmail: ds.msgInvalidEmail ?? '',
+    consent: ds.msgConsent ?? '',
+  }
 
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -89,42 +117,40 @@
     const consent = consentInput.checked
 
     if (!EMAIL_RE.test(email)) {
-      emailError.textContent = 'Introduce un email válido.'
+      emailError.textContent = MSG.invalidEmail
       emailInput.focus()
       return
     }
     if (!consent) {
-      consentError.textContent = 'Debes aceptar la política de privacidad.'
+      consentError.textContent = MSG.consent
       consentInput.focus()
       return
     }
 
     submitBtn.disabled = true
-    btnText.textContent = 'Enviando...'
+    btnText.textContent = MSG.loading
 
     try {
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, consent: true }),
+        body: JSON.stringify({ email, consent: true, locale }),
       })
 
       if (res.ok) {
         form.classList.add('hidden')
         formSuccess.classList.remove('hidden')
       } else {
-        const data = await res.json().catch(() => ({}))
-        errorText.textContent =
-          (data as { error?: string }).error ?? 'Algo salió mal. Inténtalo de nuevo.'
+        errorText.textContent = MSG.generic
         formError.classList.remove('hidden')
         submitBtn.disabled = false
-        btnText.textContent = 'Apuntarme'
+        btnText.textContent = MSG.submit
       }
     } catch {
-      errorText.textContent = 'Error de conexión. Inténtalo de nuevo.'
+      errorText.textContent = MSG.network
       formError.classList.remove('hidden')
       submitBtn.disabled = false
-      btnText.textContent = 'Apuntarme'
+      btnText.textContent = MSG.submit
     }
   })
 </script>

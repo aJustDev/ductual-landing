@@ -1,25 +1,21 @@
 ---
-const features = [
-  {
-    title: 'Agenda',
-    desc: 'Slots, recordatorios automáticos y sincronización bidireccional completa con Google Calendar.',
-    icon: 'calendar',
-  },
-  {
-    title: 'Ficha clínica con RGPD',
-    desc: 'Notas cifradas, exportables y control completo del paciente sobre sus datos. Cumplimiento por diseño.',
-    icon: 'shield',
-  },
-  {
-    title: 'Facturación',
-    desc: 'Tú decides qué y cuándo facturar. Configurable a tu manera, con Verifactu/AEAT e IVA correctos.',
-    icon: 'doc',
-  },
-] as const
+import type { Dict } from '../i18n/types'
+
+interface Props {
+  t: Dict
+}
+
+const { t } = Astro.props
+
+const icons = ['calendar', 'shield', 'doc'] as const
+const features = t.features.items.map((item, i) => ({
+  ...item,
+  icon: icons[i],
+}))
 ---
 
 <section class="features container" aria-labelledby="features-title">
-  <h2 id="features-title" class="section-title">Lo que cubrimos</h2>
+  <h2 id="features-title" class="section-title">{t.features.sectionTitle}</h2>
   <div class="grid">
     {
       features.map((f) => (

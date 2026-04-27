@@ -6,16 +6,23 @@ import Footer from '../components/Footer.astro'
 import Hero from '../components/Hero.astro'
 import Steps from '../components/Steps.astro'
 import Base from '../layouts/Base.astro'
+import { getDict } from '../i18n'
+
+const locale = 'es'
+const t = getDict(locale)
 ---
 
 <Base
-  title="Ductual - Gestión de consulta de psicología, con calma"
-  description="Agenda, fichas clínicas con RGPD y facturación en una sola herramienta. Pensada para psicólogos en España. Apúntate a la lista de espera."
+  title={t.meta.title}
+  description={t.meta.description}
+  locale={locale}
+  pathEs="/"
+  pathCa="/"
 >
-  <Hero />
-  <Features />
-  <Steps />
-  <EmailForm />
-  <Faq />
-  <Footer />
+  <Hero t={t} />
+  <Features t={t} />
+  <Steps t={t} />
+  <EmailForm t={t} locale={locale} />
+  <Faq t={t} />
+  <Footer t={t} />
 </Base>

@@ -1,26 +1,16 @@
 ---
-const items = [
-  {
-    q: '¿Cuándo lanzáis?',
-    a: 'Estamos en desarrollo activo. Te avisaremos por email en cuanto esté disponible.',
-  },
-  {
-    q: '¿Es para España?',
-    a: 'Sí. Diseñado para cumplir el RGPD, con factura electrónica AEAT (Verifactu) y soporte en castellano.',
-  },
-  {
-    q: '¿Mis datos están seguros?',
-    a: 'Cifrado en reposo, copias diarias y DPA firmable. Cumplimos el RGPD por diseño.',
-  },
-  {
-    q: '¿Puedo exportar mis datos?',
-    a: 'Sí. Exportación completa en formato abierto, en cualquier momento, sin lock-in.',
-  },
-] as const
+import type { Dict } from '../i18n/types'
+
+interface Props {
+  t: Dict
+}
+
+const { t } = Astro.props
+const items = t.faq.items
 ---
 
 <section class="faq container" aria-labelledby="faq-title">
-  <h2 id="faq-title" class="section-title">Preguntas frecuentes</h2>
+  <h2 id="faq-title" class="section-title">{t.faq.sectionTitle}</h2>
   <div class="list">
     {
       items.map((it) => (

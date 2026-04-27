@@ -1,26 +1,17 @@
 ---
-const steps = [
-  {
-    n: '01',
-    title: 'Crear tu espacio',
-    desc: 'En minutos, sin instalar nada. Acceso desde cualquier navegador.',
-  },
-  {
-    n: '02',
-    title: 'Configurar agenda y plantillas',
-    desc: 'Tus horarios, tipos de sesión, plantillas de notas y datos fiscales.',
-  },
-  {
-    n: '03',
-    title: 'Recibir pacientes',
-    desc: 'Gestionar sesiones, notas clínicas y emitir facturas sin distracciones.',
-  },
-] as const
+import type { Dict } from '../i18n/types'
+
+interface Props {
+  t: Dict
+}
+
+const { t } = Astro.props
+const steps = t.steps.items
 ---
 
 <section class="steps" aria-labelledby="steps-title">
   <div class="container">
-    <h2 id="steps-title" class="section-title">Cómo será tu primera semana</h2>
+    <h2 id="steps-title" class="section-title">{t.steps.sectionTitle}</h2>
     <ol class="list">
       {
         steps.map((s) => (
