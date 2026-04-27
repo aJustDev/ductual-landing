@@ -1,0 +1,80 @@
+---
+import type { Locale } from '../i18n/types'
+
+interface Props {
+  locale: Locale
+  pathEs: string
+  pathCa: string
+}
+
+const { locale, pathEs, pathCa } = Astro.props
+
+const hrefEs = `https://ductual.es${pathEs}`
+const hrefCa = `https://ductual.cat${pathCa}`
+---
+
+<nav class="lang-switch" aria-label="Idioma / Llengua">
+  <a
+    href={hrefEs}
+    hreflang="es"
+    lang="es"
+    aria-current={locale === 'es' ? 'page' : undefined}
+    class:list={['lang-link', { active: locale === 'es' }]}
+  >
+    ES
+  </a>
+  <span class="sep" aria-hidden="true">|</span>
+  <a
+    href={hrefCa}
+    hreflang="ca"
+    lang="ca"
+    aria-current={locale === 'ca' ? 'page' : undefined}
+    class:list={['lang-link', { active: locale === 'ca' }]}
+  >
+    CA
+  </a>
+</nav>
+
+<style>
+  .lang-switch {
+    position: absolute;
+    top: clamp(0.85rem, 2vw, 1.25rem);
+    right: clamp(1rem, 4vw, 2rem);
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.65rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .lang-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    transition:
+      color 180ms ease,
+      background 180ms ease;
+  }
+  .lang-link:hover {
+    color: var(--accent);
+  }
+  .lang-link.active {
+    color: var(--text);
+    background: var(--accent-soft);
+  }
+  .lang-link.active:hover {
+    color: var(--text);
+  }
+
+  .sep {
+    color: var(--border-strong);
+  }
+</style>

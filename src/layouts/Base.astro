@@ -1,4 +1,5 @@
 ---
+import LangSwitcher from '../components/LangSwitcher.astro'
 import type { Locale } from '../i18n/types'
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 
 const { title, description, locale, pathEs = '/', pathCa = '/' } = Astro.props
 
-const SITE_ES = 'https://ductual-landing.pages.dev'
+const SITE_ES = 'https://ductual.es'
 const SITE_CA = 'https://ductual.cat'
 const PAGES_FALLBACK = 'https://ductual-landing.pages.dev'
 
@@ -61,6 +62,7 @@ const hrefCa = `${SITE_CA}${pathCa}`
     />
   </head>
   <body>
+    <LangSwitcher locale={locale} pathEs={pathEs} pathCa={pathCa} />
     <slot />
   </body>
 </html>
